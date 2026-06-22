@@ -11,8 +11,9 @@ export default function Signup() {
   async function submit(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError(null);
     const err = await signUp(email, password, name);
+    console.log(err);
     setBusy(false);
-    if (err) setError(err); else nav("/");
+    if (err) setError(typeof err === "string" ? err : JSON.stringify(err)); else nav("/");
   }
 
   return (
