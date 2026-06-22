@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-pink: #F0127A;
+  --color-pink-deep: #C90E63;
+  --color-pink-tint: #FDEEF5;
+  --color-forest: #0B3D2A;
+  --color-forest-deep: #082A1D;
+  --color-ink: #10241A;
+  --color-muted: #6B7A72;
+  --color-mint: #EEF5F0;
+  --color-line: #E8EAE7;
+
+  --font-sans: 'Inter', sans-serif;
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-blink: blink 0.8s step-end infinite;
+  --animate-fade-up: fade-up 0.35s ease forwards;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+html, body {
+  background-color: white;
+  color: #10241A;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.page-enter {
+  animation: fade-up 0.3s ease forwards;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

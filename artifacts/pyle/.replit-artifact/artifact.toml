@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "PYLE"
+version = "1.0.0"
+id = "artifacts/pyle"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18275
+
+[services.development]
+run = "pnpm --filter @workspace/pyle run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pyle", "run", "build" ]
+publicDir = "artifacts/pyle/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18275"
+BASE_PATH = "/"
