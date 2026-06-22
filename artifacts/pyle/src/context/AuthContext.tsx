@@ -47,11 +47,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signUp(email: string, password: string, fullName: string) {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email, password,
       options: { data: { full_name: fullName } }
     });
-    return error ? error.message : null;
+    console.log("[signUp] data:", data, "error:", error, "raw:", JSON.stringify(error));
+    if (!error) return null;
+    // error.message can be "{}" when a DB trigger fails — dig deeper
+    const msg = error.message;
+    if (!msg || msg === "{}") {
+      const e = error as unknown as Record<string, unknown>;
+      return String(e["details"] || e["hint"] || e["code"] || JSON.stringify(error) || "Signup failed. Please try again.");
+    }
+    return msg;
   }
 
   async function signIn(email: string, password: string) {
