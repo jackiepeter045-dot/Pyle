@@ -7,13 +7,28 @@ export default function Signup() {
   const nav = useNavigate();
   const [name, setName] = useState(""); const [email, setEmail] = useState(""); const [password, setPassword] = useState("");
   const [error, setError] = useState<string|null>(null); const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
 
   async function submit(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError(null);
     const err = await signUp(email, password, name);
     console.log(err);
     setBusy(false);
-    if (err) setError(typeof err === "string" ? err : JSON.stringify(err)); else nav("/");
+    if (err) setError(typeof err === "string" ? err : JSON.stringify(err)); else setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center max-w-sm mx-auto px-5 py-12">
+        <Link to="/" className="font-bold text-2xl mb-8 block"><span className="text-pink">PY</span><span className="text-forest">LE</span></Link>
+        <div className="bg-mint rounded-2xl px-6 py-8 text-center">
+          <p className="text-3xl mb-4">📬</p>
+          <h2 className="text-xl font-bold text-ink mb-2">Check your email</h2>
+          <p className="text-muted text-sm leading-relaxed">We sent a confirmation link to <span className="font-semibold text-ink">{email}</span>. Click it to activate your account.</p>
+        </div>
+        <p className="text-sm text-muted mt-7 text-center">Already confirmed? <Link to="/login" className="text-pink-deep font-semibold">Sign in</Link></p>
+      </div>
+    );
   }
 
   return (
